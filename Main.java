@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        ArrayList<Point3D> CP = Point3D.createPointList("C:\\開発環境\\WebDev\\TimetrialWorks\\src\\com\\company\\sample.gpx");
+        ArrayList<Point3D> CP = Point3D.createPointList("GPXファイルの場所を入力します");
         ArrayList<Segment> P = Segment.createCource(CP);
         P = Segment.concatDefault(P);
 
