@@ -1,8 +1,5 @@
 package com.gpx;
 
-/**
- * Created by heppo on 2017/03/23.
- */
 public class Coords {
 
 

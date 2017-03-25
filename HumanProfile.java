@@ -7,10 +7,10 @@ class HumanProfile {//TT走者の基本情報を格納します
     public double human_weight = 0;
     public double bicycle_weight = 0;
     public double total_weight = 0;
-    public double Roll_res = 0.0048;
+    public double Roll_res = 0.0048;//転がり抵抗
     public double avp = 0;//目標平均出力（分）
     public double[][] PowerProfile = new double[2][7];
-    public double[] cda = new double[3];//下りのcda //平坦のcda //登りのcda・・・2つに分けるか？
+    public double[] cda = new double[3];//前面投影面積　下りのcda //平坦のcda //登りのcda・・・2つに分けるか？
 
     public HumanProfile(double human_weight, double bicycle_weight, double avp ,double p60m, double p20m,
                         double p10m, double p5m, double p1m, double p30s, double pmax, double cda []) {
@@ -35,7 +35,6 @@ class HumanProfile {//TT走者の基本情報を格納します
         PowerProfile[1][0] = pmax / total_weight;
 
         this.cda = cda;
-
         this.avp = avp;
 
     }
