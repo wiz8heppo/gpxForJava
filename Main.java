@@ -1,29 +1,26 @@
 package com.gpx;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        ArrayList<Point3D> CP = Point3D.createPointList("C:\\開発環境\\WebDev\\TimetrialWorks\\src\\com\\gpx\\sample.gpx");
-        ArrayList<Segment> P = Segment.createCource(CP);
-        P = Segment.concatDefault(P);
+        List<Point3D> CP = Point3D.createPointList("C:\\開発環境\\WebDev\\TimetrialWorks\\src\\com\\gpx\\sample.gpx");
+        List<Segment> P = Segment.createCource(CP);
+        List<Segment> GP = Segment.concatDefault(P);
+        List<Segment> NP = Segment.concatFromDist(P,100);
 
 
-
-        double y = 0;
-        int count=0;
-
-        for (Segment a : P) {
-            y += a.dist;
-            count++;
-            System.out.println(a.toString());
+        for (Segment a : GP) {
+            System.out.println(a);
         }
-
-        System.out.println(count);
-
-
-
+        for (Segment a : NP) {
+            System.out.println(a);
+        }
+        for (Segment a : P) {
+            System.out.println(a);
+        }
 
         }
 
