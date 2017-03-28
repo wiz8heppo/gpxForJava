@@ -8,8 +8,7 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
     double drop = 0d;//始点から終点までの落差。
     double slope = 0;//斜度
     int profile;//0は下り、1は平坦、2は登 //後にコーナー　４　を追加。
-    List<Point3D> points = new ArrayList<>();
-
+    List<Point3D> points = new ArrayList<>();//このセグメントが内包する3次元座標をすべて格納します。
     public Segment(double dist, double drop) {
         this.dist = dist;
         this.drop = drop;
