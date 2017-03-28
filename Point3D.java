@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Point3D {//読み込んだGPXファイルの各座標を格納するクラスです。このインスタンスを大量に格納したListを扱ってコースを作っていきます。
-    double lat;//緯度
-    double lon;//経度
-    double height;//海抜
+    private double lat;//緯度
+    private double lon;//経度
+    private double height;//海抜
 
     private Point3D(double lat, double lon, double height){
         this.lat = lat;
@@ -15,6 +15,17 @@ public class Point3D {//読み込んだGPXファイルの各座標を格納す�
         this.height = height;
     }
 
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public double getHeight() {
+        return height;
+    }
 
     public static List<Point3D> createPointList(String adress){
 

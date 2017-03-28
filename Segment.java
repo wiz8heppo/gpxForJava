@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Segment {//受け取ったCourseを、distごとに分割します。
-    double dist = 0d;//距離(m)
-    double drop = 0d;//始点から終点までの落差。
-    double slope = 0;//斜度
-    int profile;//0は下り、1は平坦、2は登 //後にコーナー　４　を追加。
-    List<Point3D> points = new ArrayList<>();//このセグメントが内包する3次元座標をすべて格納します。
-    public Segment(double dist, double drop) {
+    private double dist = 0d;//距離(m)
+    private double drop = 0d;//始点から終点までの落差。
+    private double slope = 0;//斜度
+    private int profile;//0は下り、1は平坦、2は緩い登 、　3はきつい登。//後にコーナー　４　を追加。
+    private List<Point3D> points = new ArrayList<>();//このsegmentが内包する座標をすべて格納します。
+
+    private Segment(double dist, double drop) {
         this.dist = dist;
         this.drop = drop;
         slope = 100*drop/dist;
-        profile = slope < -2 ? 0 : slope >= -2 && slope < 2.5 ? 1 : 2;//コーナーの判定式を追加
+        profile = slope < -2 ? 0 : slope >= -2 && slope < 1.5 ? 1 : slope >= 1.5  && slope < 5 ? 2 : 3 ;//コーナーの判定式を追加
 
     }
-    public Segment(double dist, double drop, List<Point3D> points) {
+    private Segment(double dist, double drop, List<Point3D> points) {
         this(dist, drop);
         this.points = points;
 
@@ -29,7 +30,6 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
                 ", drop=" + drop +
                 ", slope=" + slope +
                 ", profile=" + profile +
-                ", points=" + points +
                 '}';
     }
 
@@ -39,8 +39,8 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
         List<Segment> CPList = new ArrayList<>();
         for (int i = 0; i < CP.size() - 1; i++) {
 
-            double dist = Coords.calcDistHubeny(CP.get(i).lon, CP.get(i).lat, CP.get(i + 1).lon, CP.get(i + 1).lat);
-            double drop =  CP.get(i + 1).height - CP.get(i).height;
+            double dist = Coords.calcDistHubeny(CP.get(i).getLon(), CP.get(i).getLat(), CP.get(i + 1).getLon(), CP.get(i + 1).getLat());
+            double drop =  CP.get(i + 1).getHeight() - CP.get(i).getHeight();
             double trueDist =Math.sqrt(dist * dist + drop * drop);
             List<Point3D> points = new ArrayList<>();
             points.add(CP.get(i));
@@ -92,7 +92,7 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
     }
     public static List<Segment> concatDefault(List<Segment> SL){
         SL = Segment.concatFromProfile(SL);
-        SL = Segment.concatFromDist(SL,50);
+        SL = Segment.concatFromDist(SL,100);
         SL = Segment.concatFromProfile(SL);
         return SL;
     }

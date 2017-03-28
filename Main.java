@@ -9,18 +9,12 @@ public class Main {
         List<Point3D> CP = Point3D.createPointList("C:\\開発環境\\WebDev\\TimetrialWorks\\src\\com\\gpx\\sample.gpx");
         List<Segment> P = Segment.createCource(CP);
         List<Segment> GP = Segment.concatDefault(P);
-        List<Segment> NP = Segment.concatFromDist(P,100);
 
 
         for (Segment a : GP) {
             System.out.println(a);
         }
-        for (Segment a : NP) {
-            System.out.println(a);
-        }
-        for (Segment a : P) {
-            System.out.println(a);
-        }
+
 
         }
 
