@@ -3,8 +3,9 @@ package com.gpx;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Segment {//受け取ったCourseを、distごとに分割します。
-    private double dist = 0d;//距離(m)
+public class Segment {//2点間の距離と落差を表すクラスです。
+
+    private double dist = 0d;//始点から終点までの距離(m)
     private double drop = 0d;//始点から終点までの落差。
     private double slope = 0;//斜度
     private int profile;//0は下り、1は平坦、2は緩い登 、　3はきつい登。//後にコーナー　４　を追加。
@@ -55,7 +56,7 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
 
 
 
-    public static List<Segment> createCource(List<Point3D> CP) {
+    public static List<Segment> createCource(List<Point3D> CP) {//受け取った三次元座標List<Point3D>から、隣り合う2点間をつないだ区間List<segment>を生成します。
         List<Segment> CPList = new ArrayList<>();
         for (int i = 0; i < CP.size() - 1; i++) {
 
