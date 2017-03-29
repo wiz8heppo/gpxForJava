@@ -5,7 +5,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        List<Point3D> CP = Point3D.createPointList("C:\\開発環境\\WebDev\\TimetrialWorks\\src\\com\\gpx\\japancup.gpx");
+        List<Point3D> CP = Point3D.createPointList("C:\\開発環境\\WebDev\\TimetrialWorks\\src\\com\\gpx\\sample.gpx");
         List<Segment> P = Segment.createCource(CP);
         List<Segment> GP = Segment.concatDefault(P);
         System.out.println(Segment.toString(GP));

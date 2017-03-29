@@ -15,7 +15,7 @@ public class Segment {//2点間の距離と落差を表すクラスです。
         this.dist = dist;
         this.drop = drop;
         slope = 100*drop/dist;
-        profile = slope < -2 ? 0 : slope >= -2 && slope < 1 ? 1 : slope >= 1  && slope < 5 ? 2 : 3 ;//コーナーの判定式を追加
+        profile = slope < -2 ? 0 : slope >= -2 && slope < 2 ? 1 : 2  ;//コーナーの判定式を追加
 
     }
     private Segment(double dist, double drop, List<Point3D> points) {
