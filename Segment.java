@@ -50,7 +50,7 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
                 ", 高低差(m)=　" + drop +
                 ", 斜度(%)=　" + slope +
                 ", この区間の辛さ(0～3)=　" + profile +
-                '}';
+                "}\n";
     }
 
 
@@ -128,7 +128,7 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
         double flat = 0;
         StringBuilder Seg = new StringBuilder();
         for (Segment a : Slist) {
-            Seg.append(a.toString()+"\n");
+            Seg.append(a.toString());
 
             if (a.getProfile() > 1) {
                 uphillcount++;
@@ -149,7 +149,7 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
                 flat += a.getDist();
             }
         }
-       return Seg.toString() + "\nこのコースの登りは" + uphillcount + "区間で、登り区間の総距離は" + uphill / 1000 + "kmです。\n"+
+       return Seg.toString() + "このコースの登りは" + uphillcount + "区間で、登り区間の総距離は" + uphill / 1000 + "kmです。\n"+
         "このコースの平坦は" + flatcount + "区間で、平坦区間の総距離は" + flat / 1000 + "kmです。\n" +
         "このコースの下りは" + downhillcount + "区間で、下り区間の総距離は" + downhill / 1000 + "kmです。\n" +
         "このコースは合計" + (uphillcount + flatcount + downhillcount) + "区間で総距離は" + (uphill + flat + downhill) / 1000 + "kmです。\n" +
