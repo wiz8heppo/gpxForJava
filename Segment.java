@@ -14,7 +14,7 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
         this.dist = dist;
         this.drop = drop;
         slope = 100*drop/dist;
-        profile = slope < -2 ? 0 : slope >= -2 && slope < 1.5 ? 1 : slope >= 1.5  && slope < 5 ? 2 : 3 ;//コーナーの判定式を追加
+        profile = slope < -2 ? 0 : slope >= -2 && slope < 1 ? 1 : slope >= 1  && slope < 5 ? 2 : 3 ;//コーナーの判定式を追加
 
     }
     private Segment(double dist, double drop, List<Point3D> points) {
@@ -45,11 +45,11 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
 
     @Override
     public String toString() {
-        return "Segment{" +
-                "距離=" + dist +
-                ", 高低差=" + drop +
-                ", 斜度=" + slope +
-                ", この区間の辛さ=" + profile +
+        return "Segment{　" +
+                "距離(m)=　" + dist +
+                ", 高低差(m)=　" + drop +
+                ", 斜度(%)=　" + slope +
+                ", この区間の辛さ(0～3)=　" + profile +
                 '}';
     }
 
@@ -149,9 +149,9 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
                 flat += a.getDist();
             }
         }
-       return  Seg.toString() + "\nこのコースの登りは" + uphillcount + "区間で、登り区間の総距離は" + uphill / 1000 + "kmです。\n"+
+       return Seg.toString() + "\nこのコースの登りは" + uphillcount + "区間で、登り区間の総距離は" + uphill / 1000 + "kmです。\n"+
         "このコースの平坦は" + flatcount + "区間で、平坦区間の総距離は" + flat / 1000 + "kmです。\n" +
-        "このコースの下りは" + downhillcount + "区間で、下り区間の総距離は" + uphill / 1000 + "kmです。\n" +
+        "このコースの下りは" + downhillcount + "区間で、下り区間の総距離は" + downhill / 1000 + "kmです。\n" +
         "このコースは合計" + (uphillcount + flatcount + downhillcount) + "区間で総距離は" + (uphill + flat + downhill) / 1000 + "kmです。\n" +
         "このコースの最も長い登りは" + mostlonghill / 1000 + "kmで、平均斜度は" + mostlongslope + "%です。\n";
     }
