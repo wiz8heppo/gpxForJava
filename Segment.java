@@ -23,13 +23,33 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
 
     }
 
+    public double getDist() {
+        return dist;
+    }
+
+    public double getDrop() {
+        return drop;
+    }
+
+    public double getSlope() {
+        return slope;
+    }
+
+    public int getProfile() {
+        return profile;
+    }
+
+    public List<Point3D> getPoints() {
+        return points;
+    }
+
     @Override
     public String toString() {
         return "Segment{" +
-                "dist=" + dist +
-                ", drop=" + drop +
-                ", slope=" + slope +
-                ", profile=" + profile +
+                "距離=" + dist +
+                ", 高低差=" + drop +
+                ", 斜度=" + slope +
+                ", この区間の辛さ=" + profile +
                 '}';
     }
 
@@ -41,7 +61,7 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
 
             double dist = Coords.calcDistHubeny(CP.get(i).getLon(), CP.get(i).getLat(), CP.get(i + 1).getLon(), CP.get(i + 1).getLat());
             double drop =  CP.get(i + 1).getHeight() - CP.get(i).getHeight();
-            double trueDist =Math.sqrt(dist * dist + drop * drop);
+            double trueDist =Math.sqrt(dist * dist + drop * drop); //ヒュベニの公式は傾斜が考慮されていないので、再計算。
             List<Point3D> points = new ArrayList<>();
             points.add(CP.get(i));
             points.add(CP.get(i+1));
@@ -51,49 +71,88 @@ public class Segment {//受け取ったCourseを、distごとに分割します�
         return CPList;
     }
 
-    public static ArrayList<Segment> concatFromDist(List<Segment> SL, int distance) {//distance(m)未満のsegmentがある場合は、distanceより大きくなるまで隣の区間とに結合しつづけます。
-        ArrayList<Segment> NCPList = new ArrayList<>();
+    public static ArrayList<Segment> concatFromDistance(List<Segment>SList, int distance) {//distance(m)未満のsegmentがある場合は、distanceより大きくなるまで隣の区間とに結合しつづけます。
+        ArrayList<Segment> nSList = new ArrayList<>();
 
-        for (int i = 0; i < SL.size(); i++) {
-                double DS = SL.get(i).dist;
-                double DR = SL.get(i).drop;
-                List<Point3D> points = new ArrayList<>(SL.get(i).points);
+        for (int i = 0; i < SList.size(); i++) {
+                double DS = SList.get(i).dist;
+                double DR = SList.get(i).drop;
+                List<Point3D> points = new ArrayList<>(SList.get(i).points);
 
-                for(int j = i+1; j < SL.size() && DS < distance ; j++){
-                    DS += SL.get(j).dist;
-                    DR += SL.get(j).drop;
-                    points.addAll(new ArrayList<>(SL.get(j).points.subList(1, SL.get(j).points.size())));
+                for(int j = i+1; j < SList.size() && DS < distance ; j++){
+                    DS += SList.get(j).dist;
+                    DR += SList.get(j).drop;
+                    points.addAll(new ArrayList<>(SList.get(j).points.subList(1, SList.get(j).points.size())));
                     i = j;
                 }
-                NCPList.add(new Segment(DS, DR, points));
+                nSList.add(new Segment(DS, DR, points));
 
         }
-        return NCPList;
+        return nSList;
+
     }
 
-    public static List<Segment> concatFromProfile(List<Segment> SL) {//隣り合うsegmentが同じprofileの場合、それら結合します。たとえば区間が平坦ならば、次に上り坂か下り坂が現れるまでひとまとめのsegmentとしてインスタンス同士を結合します、
-        List<Segment> NCPList = new ArrayList<>();
+    public static List<Segment> concatFromProfile(List<Segment> SList) {//隣り合うsegmentが同じprofileの場合、2つを結合します。たとえば区間が平坦ならば、次に上り坂か下り坂が現れるまでひとまとめのsegmentとしてインスタンス同士を結合します、
+        List<Segment> nSList = new ArrayList<>();
 
-        for (int i = 0; i < SL.size(); i++) {
-            double DS = SL.get(i).dist;
-            double DR = SL.get(i).drop;
-            List<Point3D> points = new ArrayList<>(SL.get(i).points);
+        for (int i = 0; i < SList.size(); i++) {
+            double DS = SList.get(i).dist;
+            double DR = SList.get(i).drop;
+            List<Point3D> points = new ArrayList<>(SList.get(i).points);
 
-            for (int j = i + 1; j < SL.size() - 2 && SL.get(j-1).profile == SL.get(j).profile ; j++) {
-                    DS += SL.get(j).dist;//ここ、なんでSL.get(i+1).distだったの？？おぼえてねえ
-                    DR += SL.get(j).drop;//ここ、なんでSL.get(i+1).dropだったの？？おぼえてねえ
-                    points.addAll(new ArrayList<>(SL.get(j).points.subList(1, SL.get(j).points.size())));
+            for (int j = i + 1; j < SList.size() - 2 && SList.get(j-1).profile == SList.get(j).profile ; j++) {
+                    DS += SList.get(j).dist;
+                    DR += SList.get(j).drop;
+                    points.addAll(new ArrayList<>(SList.get(j).points.subList(1, SList.get(j).points.size())));
 
                 i = j;
             }
-            NCPList.add(new Segment(DS, DR ,points));
+            nSList.add(new Segment(DS, DR ,points));
         }
-            return NCPList;
+            return nSList;
     }
-    public static List<Segment> concatDefault(List<Segment> SL){
-        SL = Segment.concatFromProfile(SL);
-        SL = Segment.concatFromDist(SL,100);
-        SL = Segment.concatFromProfile(SL);
-        return SL;
+    public static List<Segment> concatDefault(List<Segment> SList){
+        List<Segment> nSList = Segment.concatFromProfile(SList);
+        nSList = Segment.concatFromDistance(nSList,100);
+        nSList = Segment.concatFromProfile(nSList);
+        return nSList;
+    }
+    public  static String toString(List<Segment> Slist) {
+        int uphillcount = 0;
+        double uphill = 0;
+        double mostlonghill = 0;
+        double mostlongslope = 0;
+        int downhillcount = 0;
+        double downhill = 0;
+        int flatcount = 0;
+        double flat = 0;
+        StringBuilder Seg = new StringBuilder();
+        for (Segment a : Slist) {
+            Seg.append(a.toString()+"\n");
+
+            if (a.getProfile() > 1) {
+                uphillcount++;
+                uphill += a.getDist();
+                if (a.getDist() > mostlonghill) {
+                    mostlonghill = a.getDist();
+                    mostlongslope = a.getSlope();
+                }
+            }
+
+            if (a.getProfile() == 0) {
+                downhillcount++;
+                downhill += a.getDist();
+            }
+
+            if (a.getProfile() == 1) {
+                flatcount++;
+                flat += a.getDist();
+            }
+        }
+       return  Seg.toString() + "\nこのコースの登りは" + uphillcount + "区間で、登り区間の総距離は" + uphill / 1000 + "kmです。\n"+
+        "このコースの平坦は" + flatcount + "区間で、平坦区間の総距離は" + flat / 1000 + "kmです。\n" +
+        "このコースの下りは" + downhillcount + "区間で、下り区間の総距離は" + uphill / 1000 + "kmです。\n" +
+        "このコースは合計" + (uphillcount + flatcount + downhillcount) + "区間で総距離は" + (uphill + flat + downhill) / 1000 + "kmです。\n" +
+        "このコースの最も長い登りは" + mostlonghill / 1000 + "kmで、平均斜度は" + mostlongslope + "%です。\n";
     }
 }
