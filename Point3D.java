@@ -1,5 +1,3 @@
-package com.gpx;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -68,10 +66,10 @@ public class Point3D {//読み込んだGPXファイルの各座標を格納す�
                 isr.close();
                 http.disconnect();
             }
-                catch( Exception e ) {
+            catch( Exception e ) {
 
-                }
-                return pointList;
+            }
+            return pointList;
         }
 
         else {

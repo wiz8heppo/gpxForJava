@@ -1,5 +1,3 @@
-package com.gpx;
-
 class Coords {
 
 
