@@ -12,7 +12,7 @@ class SimulateTT {
     private double time = 0.0D;
     private double dist;
 
-    SimulateTT(List<Segment> course, HumanProfile rider, double[] wattOfProfile, double temperature) {
+    SimulateTT(List<Segment> course, HumanProfile rider, double[] wattOfProfile, double temperature) {//下り、平坦、登りごとにCdAとWを設定してタイムを算出するコンストラクタです。
         this.rider = rider;
         double air_density = 352.989D / (273.0D + temperature);
         final double g = 9.80665D;
@@ -51,7 +51,7 @@ class SimulateTT {
 
     }
 
-    SimulateTT(List<Segment> course, HumanProfile rider, double watt, double cda, double temperature) {
+    SimulateTT(List<Segment> course, HumanProfile rider, double watt, double cda, double temperature) {//常に一定のCdA、一定のWで走り続けた場合のタイムを算出するコンストラクタです。
         this.rider = rider;
         double air_density = 352.989D / (273.0D + temperature);
         final double g = 9.80665D;
@@ -93,7 +93,7 @@ class SimulateTT {
 
     }
 
-    SimulateTT(List<Segment> course, double total_weight, double temperature) {
+    SimulateTT(List<Segment> course, double total_weight, double temperature) {//区間ごとに毎回CdAとWを設定してタイムを算出するコンストラクタです
         Scanner sc = new Scanner(System.in);
         double air_density = 352.989D / (273.0D + temperature);
         double g = 9.80665D;
