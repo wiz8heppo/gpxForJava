@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Segment {
-    private double dist;
-    private double drop;
-    private double slope;
-    private int profile;
-    private List<Point3D> points;
+    private double dist;//距離
+    private double drop;//落差
+    private double slope;//斜度
+    private int profile;//傾斜状況
+    private List<Point3D> points;//この区間に含まれる座標
 
     Segment(double dist, double drop) {
         this.dist = 0.0D;
