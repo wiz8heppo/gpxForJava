@@ -4,9 +4,9 @@ import java.util.List;
 class HumanProfile {
     double human_weight = 0.0D;
     double bicycle_weight = 0.0D;
-    double total_weight = 0.0D;
-    double roll_res = 0.0048D;
-    List<CriticalPower> power;
+    double total_weight = 0.0D;//総重量
+    double roll_res = 0.0048D;//転がり抵抗。一時固定
+    List<CriticalPower> power;//CP
 
     double[] cda = new double[3];
 
