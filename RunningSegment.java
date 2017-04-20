@@ -1,9 +1,9 @@
 public class RunningSegment extends Segment {
-    private double time;
-    private double current_dist;
-    private double current_time;
-    private double avp;
-    private double power;
+    private double time;//この区間の通過にかかった時間
+    private double current_dist;//コース中の現在地点
+    private double current_time;//この区間に到達するまでにかかった時間
+    private double avp;//この区間に到達するまでの平均出力
+    private double power;//この区間のみの平均出力
 
     private RunningSegment(Segment run, double current_dist, double time, double current_time) {
         super(run.getDist(), run.getDrop());
