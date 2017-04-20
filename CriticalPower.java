@@ -9,8 +9,8 @@ import java.util.List;
  * Created by heppo on 2017/04/18.
  */
 public class CriticalPower {
-    int sec = 0;
-    int power =0;
+    int sec = 0;//この秒数なら
+    int power =0;//このパワーを出し続けられる
 
 
     private CriticalPower(int sec, int power){
