@@ -7,10 +7,10 @@ class SimulateTT {
     private List<RunningSegment> running_course = new ArrayList<>();
     private HumanProfile rider = new HumanProfile();
     private double temperature;
-    private double avp = 0.0D;
+    private double avp = 0.0D;//(平均出力)
     private double total_power = 0.0D;
-    private double time = 0.0D;
-    private double dist;
+    private double time = 0.0D;//かかった時間（分）
+    private double dist;//コースの総距離（ｋｍ）
 
     SimulateTT(List<Segment> course, HumanProfile rider, double[] wattOfProfile, double temperature) {//下り、平坦、登りごとにCdAとWを設定してタイムを算出するコンストラクタです。
         this.rider = rider;
